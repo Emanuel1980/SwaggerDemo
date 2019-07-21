@@ -1,0 +1,17 @@
+CREATE TABLE IF NOT EXISTS personen (
+  id VARCHAR(32) PRIMARY KEY,
+  first_name VARCHAR(250) NOT NULL,
+  last_name VARCHAR(250) NOT NULL,
+  street VARCHAR(250) DEFAULT NULL,
+  house_number VARCHAR(250) DEFAULT NULL,
+  plz VARCHAR(250) DEFAULT NULL,
+  city VARCHAR(250) DEFAULT NULL  
+);
+ 
+CREATE TABLE IF NOT EXISTS kontakte (
+	id VARCHAR(32) PRIMARY KEY,		
+	fk_personen_id VARCHAR(32) NOT NULL,
+	FOREIGN KEY (fk_personen_id) REFERENCES personen(id),
+	kontakt_adresse VARCHAR(64) DEFAULT NULL,
+	kontakt_art VARCHAR(64) DEFAULT NULL 
+);

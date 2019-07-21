@@ -1,0 +1,197 @@
+swagger: "2.0"
+info:
+  version: 0.0.1
+  title: Person Servies API
+  description: API for Person Services
+
+  contact:
+    name: Emanuel Tebbe
+
+host: api.allianz.de
+basePath: /v1
+
+schemes: 
+  - https
+consumes: 
+  - application/json
+produces: 
+  - application/json
+  
+paths:
+  /persons:
+    post:
+      summary: create a person
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: persondata
+          schema:
+            $ref: '#/definitions/PersonData'
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: "#/definitions/ResponseStatus"
+        400:
+          description: invalid data
+    
+    put:
+      summary: update a person record
+      produces:  
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: query
+          name: personId
+          type: string
+        - in: body
+          name: persondata
+          schema:
+            $ref: '#/definitions/PersonData'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/PersonData"
+        400:
+          description: invalid data            
+  
+    get:
+      summary: load a person by his personId
+      produces:
+        - application/json
+      consumes:
+        - application/json      
+      parameters:
+        - in: query
+          name: personId
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/PersonData"
+        400:
+          description: invalid data
+
+    delete:
+      summary: delete a person
+      produces:
+        - application/json
+      consumes:
+        - application/json   
+      parameters:
+        - in: query
+          name: personId
+          required: true
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/PersonData'
+  
+  /findpersons:  
+    get:
+      summary: find persons by difference data
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: query
+          name: familyname          
+          type: string
+        - in: query
+          name: firstname          
+          type: string
+        - in: query
+          name: city          
+          type: string 
+        - in: query
+          name: kontaktadresse          
+          type: string          
+             
+                                       
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: "#/definitions/PersonsData"
+        400:
+          description: invalid data    
+    
+        
+definitions:
+  PersonsData:
+    properties:
+      persondata:
+        type: array
+        items:
+          $ref: '#/definitions/PersonData'
+      
+
+  PersonData:
+    required: 
+    - firstname
+    - familyname
+    properties:
+      firstname:
+        type: string
+        example: "Max"
+      familyname:
+        type: string
+        example: "Schneider"
+      adresse:
+        $ref: '#/definitions/Address'
+      kontakt:
+        type: array
+        items:
+          $ref: '#/definitions/Kontakt'        
+
+  
+  Address:
+    required: 
+    - streetname
+    - housenumber
+    - postleitzahl
+    - city
+    properties:
+      streetname:
+        type: string
+        example: "musterstreetname"
+      housenumber:
+        type: string
+        example: "34"
+      postleitzahl:
+        type: string
+        example: "97505"
+      city:
+        type: string
+        example: "Geldersheim"
+        
+  Kontakt:
+    properties:
+      kontaktadresse:
+        type: string
+        example: "089-2343 8123"
+      kontaktart:
+        type: string
+        example: "Festnetz"        
+        
+  ResponseStatus:
+    properties:
+      text:
+        type: string
+        example: "Aufruf war erfolgreich"
+      userId:
+        type: string
+        example: "12"
+      
+        
+        
