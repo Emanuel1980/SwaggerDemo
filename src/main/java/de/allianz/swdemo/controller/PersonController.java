@@ -103,7 +103,7 @@ public class PersonController {
 			rspStatus.setText("zu aktualisierende Person konnte nicht mit der ID " + personId + " gefunden werden");
 			return new ResponseEntity<ResponseStatus>(rspStatus, HttpStatus.UNPROCESSABLE_ENTITY);					
 		} catch (Exception ex) {
-			return getErrorOutOfMe("Person konnte nicht mit der ID " + personId + " gelöscht werden", "updatePerson", ex);
+			return getErrorOutOfMe("Person konnte nicht mit der ID " + personId + " veraendert werden", "updatePerson", ex);
 		}		
 	}
 

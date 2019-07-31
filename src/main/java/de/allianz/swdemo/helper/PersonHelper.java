@@ -80,6 +80,15 @@ public class PersonHelper {
 		personData.setHouseNumber(reqPersonData.getAdresse().getHousenumber());
 		personData.setPlz(reqPersonData.getAdresse().getPostleitzahl());
 		personData.setCity(reqPersonData.getAdresse().getCity());		
+		if (! reqPersonData.getKontakt().isEmpty() && reqPersonData.getKontakt().size() > 0) {
+			for (int i = 0; i < reqPersonData.getKontakt().size(); i++) {
+				if (i < personData.getKontakte().size()) {
+					personData.getKontakte().get(i).setKontaktAdresse(reqPersonData.getKontakt().get(i).getKontaktadresse());
+					personData.getKontakte().get(i).setKontaktArt(reqPersonData.getKontakt().get(i).getKontaktart());
+				}
+			}
+		}
+	
 		
 		return personData;
 	}	
