@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_1arza46" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.1.2">
+  <bpmn:collaboration id="PersonenCollaborationProcess">
+    <bpmn:participant id="Participant_0of8ilw" name="Personen Process" processRef="PersonenProcess" />
+  </bpmn:collaboration>
+  <bpmn:process id="PersonenProcess" name="Personen Process" isExecutable="true">
+    <bpmn:serviceTask id="Task_0naxckl" name="Person ausgeben" camunda:delegateExpression="#{personAusgabe}">
+      <bpmn:incoming>SequenceFlow_0n15541</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0j6vfld</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:intermediateCatchEvent id="Wait_after_Person_Ausgabe">
+      <bpmn:incoming>SequenceFlow_0j6vfld</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1rpb9iu</bpmn:outgoing>
+      <bpmn:timerEventDefinition>
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT30S</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:endEvent id="END_Person">
+      <bpmn:incoming>SequenceFlow_1rpb9iu</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0n15541" sourceRef="StartPerson" targetRef="Task_0naxckl" />
+    <bpmn:sequenceFlow id="SequenceFlow_0j6vfld" sourceRef="Task_0naxckl" targetRef="Wait_after_Person_Ausgabe" />
+    <bpmn:sequenceFlow id="SequenceFlow_1rpb9iu" sourceRef="Wait_after_Person_Ausgabe" targetRef="END_Person" />
+    <bpmn:startEvent id="StartPerson" name="Start">
+      <bpmn:outgoing>SequenceFlow_0n15541</bpmn:outgoing>
+      <bpmn:messageEventDefinition messageRef="Message_1uvpqw0" />
+    </bpmn:startEvent>
+  </bpmn:process>
+  <bpmn:message id="Message_1uvpqw0" name="StartPerson" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="PersonenCollaborationProcess">
+      <bpmndi:BPMNShape id="Participant_0of8ilw_di" bpmnElement="Participant_0of8ilw" isHorizontal="true">
+        <dc:Bounds x="129" y="61" width="600" height="250" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_10g49kj_di" bpmnElement="Task_0naxckl">
+        <dc:Bounds x="265" y="137" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="IntermediateCatchEvent_01wnfah_di" bpmnElement="Wait_after_Person_Ausgabe">
+        <dc:Bounds x="415" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="EndEvent_0275rlb_di" bpmnElement="END_Person">
+        <dc:Bounds x="501" y="159" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0n15541_di" bpmnElement="SequenceFlow_0n15541">
+        <di:waypoint x="215" y="177" />
+        <di:waypoint x="265" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0j6vfld_di" bpmnElement="SequenceFlow_0j6vfld">
+        <di:waypoint x="365" y="177" />
+        <di:waypoint x="415" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1rpb9iu_di" bpmnElement="SequenceFlow_1rpb9iu">
+        <di:waypoint x="451" y="177" />
+        <di:waypoint x="501" y="177" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_1fuu6fw_di" bpmnElement="StartPerson">
+        <dc:Bounds x="179" y="159" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="185" y="202" width="25" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

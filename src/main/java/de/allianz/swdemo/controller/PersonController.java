@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import de.allianz.swdemo.camunda.CamundaPersonProcess;
 import de.allianz.swdemo.helper.PersonHelper;
 import de.allianz.swdemo.model.PersonDataEntity;
 import de.allianz.swdemo.repository.PersonenRepository;
@@ -30,6 +31,9 @@ public class PersonController {
 	@Autowired
 	private PersonHelper personHelper;
 	
+	@Autowired
+	private CamundaPersonProcess camundaPersonProcess;
+	
 	public ResponseEntity<ResponseStatus> addPersons(PersonData reqPersonData) {
 		LOG.info("PersonController.addPersons");
 		ResponseStatus rspStatus = new ResponseStatus();
@@ -38,6 +42,7 @@ public class PersonController {
 			PersonDataEntity personDataEntity =  personHelper.createPersonDataEntity(reqPersonData);			
 			perRepo.save(personDataEntity);			
 			rspStatus.setUserId(personDataEntity.getId().toString());
+			camundaPersonProcess.createPersonProcess(reqPersonData, personDataEntity.getId());
 			return new ResponseEntity<ResponseStatus>(rspStatus, HttpStatus.CREATED);
 		}
 		rspStatus.setText("personData ist null");
