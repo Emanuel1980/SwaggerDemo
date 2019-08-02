@@ -141,10 +141,6 @@
 							<supportingFilesToGenerate>ApiUtil.java</supportingFilesToGenerate>
 							<apiPackage>de.personen.services.api</apiPackage>
 							<modelPackage>de.personen.services.model</modelPackage>
-	<!-- 						<configOptions>
-								<dateLibrary>java8</dateLibrary>
-								<sourceFolder>azam-services</sourceFolder>
-							</configOptions> -->
 						</configuration>
 					</execution> 
 				</executions>

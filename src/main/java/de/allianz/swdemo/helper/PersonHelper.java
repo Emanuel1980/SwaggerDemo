@@ -48,7 +48,6 @@ public class PersonHelper {
 		PersonDataEntity person = new PersonDataEntity();
 		final String personId = cryptIdGenerator.generateCryptId();
 		person.setId(personId);
-		final String kontaktId = cryptIdGenerator.generateCryptId();
 		person.setFirstName(reqPersonData.getFirstname());
 		person.setFamilyName(reqPersonData.getFamilyname());
 		person.setStreet(reqPersonData.getAdresse().getStreetname());

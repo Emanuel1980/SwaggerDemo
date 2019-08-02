@@ -34,10 +34,8 @@ public class PersonController {
 		LOG.info("PersonController.addPersons");
 		ResponseStatus rspStatus = new ResponseStatus();
 		if (reqPersonData != null) {
-			final String fullname = reqPersonData.getFirstname() + " " + reqPersonData.getFamilyname();
-			rspStatus.setText(String.format("Der volle Name der neu angelegten Person heißt %s: ", fullname));
+			rspStatus.setText(String.format("Der volle Name der neu angelegten Person heißt %s: ", reqPersonData.getFirstname() + " " + reqPersonData.getFamilyname()));
 			PersonDataEntity personDataEntity =  personHelper.createPersonDataEntity(reqPersonData);			
-			System.out.println("vor dem speichern");
 			perRepo.save(personDataEntity);			
 			rspStatus.setUserId(personDataEntity.getId().toString());
 			return new ResponseEntity<ResponseStatus>(rspStatus, HttpStatus.CREATED);
@@ -47,7 +45,7 @@ public class PersonController {
 	}
 
 	public ResponseEntity<?> getPerson(String personId) {
-		LOG.info("PersonsController.getPerson log");
+		LOG.info("PersonsController.getPerson");
 		try { 
 			Optional<PersonDataEntity> personOptional = perRepo.findById(personId);
 			if (personOptional.isPresent()) {				
@@ -55,7 +53,7 @@ public class PersonController {
 				return new ResponseEntity<PersonData>(personHelper.createPersonData(person), HttpStatus.OK);
 			}
 			ResponseStatus rspStatus = new ResponseStatus();
-			rspStatus.setText("Person konnte nicht mit der ID " + personId + " nicht gefunden werden");
+			rspStatus.setText("Person konnte mit der ID " + personId + " nicht gefunden werden");
 			return new ResponseEntity<ResponseStatus>(rspStatus, HttpStatus.BAD_REQUEST);
 			
 		} catch (IllegalArgumentException ex) {
@@ -100,7 +98,7 @@ public class PersonController {
 				return new ResponseEntity<PersonData>(rspPersonData, HttpStatus.OK);
 			}
 			ResponseStatus rspStatus = new ResponseStatus();
-			rspStatus.setText("zu aktualisierende Person konnte nicht mit der ID " + personId + " gefunden werden");
+			rspStatus.setText("zu aktualisierende Person konnte mit der ID " + personId + " nicht gefunden werden");
 			return new ResponseEntity<ResponseStatus>(rspStatus, HttpStatus.UNPROCESSABLE_ENTITY);					
 		} catch (Exception ex) {
 			return getErrorOutOfMe("Person konnte nicht mit der ID " + personId + " veraendert werden", "updatePerson", ex);
@@ -143,13 +141,11 @@ public class PersonController {
 				}
 				return new ResponseEntity<PersonsData>(rspPersons, HttpStatus.OK);
 				} else {
-				System.out.println("Keine Person gefunden");
-				ResponseStatus rspStatus = new ResponseStatus();
-				rspStatus.setText("Keine Person gefunden");
-				return new ResponseEntity<ResponseStatus>(rspStatus, HttpStatus.UNPROCESSABLE_ENTITY);					
+					LOG.error("Keine Person gefunden");
+					ResponseStatus rspStatus = new ResponseStatus();
+					rspStatus.setText("Keine Person gefunden");
+					return new ResponseEntity<ResponseStatus>(rspStatus, HttpStatus.UNPROCESSABLE_ENTITY);					
 			}
-			
-			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			return getErrorOutOfMe("PKeine Person gefunden", "findPersons", ex);
