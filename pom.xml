@@ -79,7 +79,13 @@
 		    <groupId>org.camunda.bpm.springboot</groupId>
 		    <artifactId>camunda-bpm-spring-boot-starter-webapp</artifactId>
 		    <version>3.3.3</version>
-		</dependency>		    		             
+		</dependency>		 
+		
+		<dependency>
+			<groupId>de.etcomp</groupId>
+			<artifactId>BuchListe</artifactId>
+			<version>0.0.1</version>		
+		</dependency>   		             
         		
 	</dependencies>
 

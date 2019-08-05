@@ -124,7 +124,31 @@ paths:
           schema:
             $ref: "#/definitions/PersonsData"
         400:
-          description: invalid data    
+          description: invalid data   
+
+  /buch:
+    post:
+      summary: create a buch
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - in: query
+          name: userid
+          type: string
+          description: Dieses Feld wird später dazu verwendet den Bucheintrag zu einer Person zuzuordnen
+        - in: body
+          name: buch
+          schema:
+            $ref: '#/definitions/Buch'
+      responses:
+        201:
+          description: OK
+          schema:
+            $ref: "#/definitions/ResponseStatus"
+        400:
+          description: invalid data                 
     
         
 definitions:
@@ -175,6 +199,26 @@ definitions:
         type: string
         example: "Geldersheim"
         
+  Buch:
+    required:
+      - titel
+    properties:
+      titel:
+        type: string
+        example: "Der kleine Hobbit"
+      author:
+        type: string
+        example: "J.R.R. Tolkien"
+      genre:
+        type: string
+        example: "Fantasie"        
+      inhalt:
+        type: string
+        example: "Ein Hobbit der es wagte auf Abenteuerreise zu gehen"
+      notiz:
+        type: string
+        example: "Gehört zu meinen Lieblingsbüchern"  
+         
   Kontakt:
     properties:
       kontaktadresse:

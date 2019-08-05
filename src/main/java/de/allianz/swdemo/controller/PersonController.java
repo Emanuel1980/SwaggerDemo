@@ -1,21 +1,30 @@
 package de.allianz.swdemo.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.apache.cxf.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import org.springframework.http.HttpMethod;
 
 import de.allianz.swdemo.camunda.CamundaPersonProcess;
 import de.allianz.swdemo.helper.PersonHelper;
 import de.allianz.swdemo.model.PersonDataEntity;
 import de.allianz.swdemo.repository.PersonenRepository;
+import de.etcomp.buchliste.model.BuchDataEntity;
 import de.personen.services.model.Address;
+import de.personen.services.model.Buch;
 import de.personen.services.model.PersonData;
 import de.personen.services.model.PersonsData;
 import de.personen.services.model.ResponseStatus;
@@ -33,6 +42,9 @@ public class PersonController {
 	
 	@Autowired
 	private CamundaPersonProcess camundaPersonProcess;
+	
+	@Autowired
+	RestTemplate buchListeRestTemplate;
 	
 	public ResponseEntity<ResponseStatus> addPersons(PersonData reqPersonData) {
 		LOG.info("PersonController.addPersons");
@@ -162,6 +174,18 @@ public class PersonController {
 		ResponseStatus rspStatus = new ResponseStatus();
 		rspStatus.setText(errMsg + " - Exceptionmessage: " + ex.getMessage());
 		return new ResponseEntity<ResponseStatus>(rspStatus, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	public ResponseEntity<ResponseStatus> addBuch(String userid, Buch buch) {
+		LOG.info("PersonenController.addBuch");
+		BuchDataEntity buchreq = new BuchDataEntity();
+		buchreq.setBuchTitel(buch.getTitel());
+		HttpEntity<BuchDataEntity> req = new HttpEntity<>(buchreq);
+		
+		String url ="http://localhost:8090/buchliste/addbuch";
+		ResponseEntity<BuchDataEntity> response = buchListeRestTemplate.exchange(url , HttpMethod.POST, req, BuchDataEntity.class, "dfsd");
+		LOG.info(response.getBody().getBuchTitel());
+		return null;
 	}	
 	
 }
